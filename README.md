@@ -1,0 +1,3 @@
+# Catan Simulator
+
+## Setup

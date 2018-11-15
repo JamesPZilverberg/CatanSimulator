@@ -1,0 +1,6 @@
+
+- run.py
+- catan_utils
+  - __init__.py
+  - simulator.py
+  - simple_bot.py
