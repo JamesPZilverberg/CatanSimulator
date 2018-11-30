@@ -10,8 +10,6 @@ class Bot(metaclass=ABCMeta):
         pass
 
 
-
-
 class SimpleBot(Bot):
     """Basic Player to make moves essentially randomly.
     
@@ -28,7 +26,6 @@ class SimpleBot(Bot):
                     - Trade in for other resources(4 for 1, 3 for 1 port, 2 for 1 port)
                     - Build/Development Card
                     - Use Development Card
-                
 
     
     """
