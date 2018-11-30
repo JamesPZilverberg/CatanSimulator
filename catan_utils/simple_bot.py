@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 
 class Bot(metaclass=ABCMeta):
     def __init__(self):
-        self.resources = {'wood': 0, 'wheat':0, 'brick':0, 'ore':0, 'sheep':0}
+        self.resources = {'lumber': 0, 'grain':0, 'brick':0, 'ore':0, 'wool':0}
         self.dev_cards = {'knight':0, 'monopoly':0, 'year of plenty':0, 'road builder':0, 'victory point':0}
         self.longest_road = False
         self.largest_army = False
@@ -35,8 +35,6 @@ class Bot(metaclass=ABCMeta):
                                    dev_card:True},
                               play:self.dev_cards,
                               trade:[player_ids]}
-
-
         :return: move
         """
         pass

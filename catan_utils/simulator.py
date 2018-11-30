@@ -13,7 +13,6 @@ class Simulator:
         - create correct data-structure to represent the game
         - On each turn, tell every player what's happened for every other player
 
-
     """
     def __init__(self, *players):
         self.players = players
@@ -23,35 +22,89 @@ class Simulator:
         return sum(np.random.randint(1, 7) for _ in range(num_dice))
 
     @property
-    def map(self):
+    def game_state(self):
+        """
+        Game state will be a dictionary that will contain map, resource count, etc.  Contains all of the public
+        information.
+        :return:
+        """
         return
 
     def one_round(self):
+        """
+        To Do:
+        Will need to define trade protocol object
+        :return:
+        """
         for player in self.players:
             self.award_resources(self.roll_dice())
             while True:
-                available_moves = self.available_moves(player)
+                available_moves = self.get_available_moves(player)
                 if len(available_moves) == 0:
                     break
-                move = player.move(self.state, available_moves)
+                move = player.make_a_move(self.game_state, available_moves)
                 if move is None:
                     break
-                self.apply_move(player, move)
+                self._apply_move(player, move)
 
-    def get_player_move(self, player):
-        available_actions = self.available_actions(player)
-        return player.move(available_actions)
-
-    def available_moves(self, player):
+    def get_available_moves(self, player):
         """
-        returns list(moves)
-        Move types:
-          -
-        """
-        available_actions = {}
-        return available_actions
+        availabe_moves = {buy:{road:[available_road_locations],
+                               settlement:[available_settlement_locations],
+                               city:[available_city_locations],
+                               dev_card:True},
+                          play:self.dev_cards,
+                          trade:[player_ids]}
 
-    def apply_move(self, player, moves):
+        buy:
+            - look at player resources
+            - see what can be built with those resources
+            - road:
+                - check if road is already there
+                - check if path is blocked
+            - settlement:
+                - check to see if road connected
+                - check to see if space is two away from all settlements
+            - city:
+                - check to see if any settlements on board
+        play:
+            - return all active dev cards (can't use on current turn)
+            - check to see if dev card has been played this turn
+            - can't play victory point
+        trade:
+            - initiated trade protocol which
+            - list of player_ids
+            - max trade proposals per player argument (start with 2)
+            - max completed trades per player (start with 1)
+
+        """
+        can_buy = {
+            'road': player.lumber > 0 and player.brick > 0,
+            'settlement': player.lumber > 0 and player.brick > 0 and player.wool > 0 and player.grain > 0,
+            'city': player.ore > 2 and player.grain > 1,
+            'dev_card': player.ore > 0 and player.grain > 0 and player.wool > 0
+        }
+
+        can_buy['road'] = self._get_available_roads(player.id) if can_buy['road'] else []
+        can_buy['settlement'] = self._get_available_settlements(player.id) if can_buy['settlements'] else []
+        can_buy['city'] = self._get_available_cities(player.id) if can_buy['city'] else []
+
+        return {'buy': can_buy}
+
+    def _get_available_roads(self, player_id):
+        road_positions = []
+        return road_positions
+
+    def _get_available_settlements(self, player_id):
+        settlement_positions = []
+        return settlement_positions
+    
+    def _get_available_cities(self, player_id):
+        cities_positions = []
+        return cities_positions
+
+
+    def _apply_move(self, player, moves):
         # apply moves
         pass
 
