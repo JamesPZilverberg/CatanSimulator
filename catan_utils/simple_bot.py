@@ -61,6 +61,7 @@ class Bot(metaclass=ABCMeta):
         """
         pass
 
+
 class SimpleBot(Bot):
     """Basic Player to make moves essentially randomly.
     
@@ -95,5 +96,4 @@ class SimpleBot(Bot):
     def evaluate_trade_request(self):
         pass
 
-    def
 
