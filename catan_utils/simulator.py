@@ -98,7 +98,7 @@ class Simulator:
     def _get_available_settlements(self, player_id):
         settlement_positions = []
         return settlement_positions
-    
+
     def _get_available_cities(self, player_id):
         cities_positions = []
         return cities_positions
@@ -119,3 +119,46 @@ class Simulator:
                     house.reward_resource(tile.resource, 1)
                 for city in tile.cities:
                     city.reward_resource(tile.resource, 2)
+
+    def generate_random_map(self):
+        ##### CHECK TO MAKE SURE SIDES ARE CORRECT
+        points = {}
+        tiles = {}
+        roads = {}
+        opposite_side = {1: 4, 2: 5, 3: 6, 4: 1, 5: 2, 6: 3}
+
+        available_sides = {0: [1, 2, 3, 4, 5, 6]}
+        num_layers = 4
+        first_tile_last_layer = 0
+        last_tile_last_layer = 0
+        currently_placing_tile = 0
+        for layer in range(1, num_layers):
+            placed = 0
+            num_to_place = 6 * layer
+            print(num_to_place)
+            currently_wrapping_tile = first_tile_last_layer
+            currently_viewing_side = 1
+            while placed < num_to_place:
+                currently_placing_tile += 1
+                print(f'Currently placing tile {currently_placing_tile} on side {currently_viewing_side}')
+
+                # Place one tile
+                _available = [_ for _ in [1, 2, 3, 4, 5, 6] if _ != opposite_side[currently_viewing_side]]
+                available_sides[currently_placing_tile] = _available
+                del available_sides[currently_wrapping_tile][0]
+                # done placing tile
+
+                if currently_viewing_side + 1 in available_sides[currently_wrapping_tile]:
+                    currently_viewing_side += 1
+                    print('Incrementing side')
+                else:
+                    currently_wrapping_tile += 1
+                    print('Incrementing wrapped tile')
+
+                placed += 1
+            first_tile_last_layer = currently_placing_tile
+
+
+if __name__ == '__main__':
+    Simulator().generate_random_map()
+
